@@ -1,7 +1,6 @@
 import pygame
 import os
 from random import randint
-pygame.font.init()
 import sys
 
 WIDTH, HEIGHT = 1000, 800
@@ -45,8 +44,9 @@ BACK = pygame.transform.scale(BACK, (WIDTH, HEIGHT))
 TARGET = pygame.image.load(os.path.join('dragon_assets', 'target.png'))
 TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 
-text_font = pygame.font.SysFont("Helvetica", 30)
+text_font = pygame.font.SysFont("Helvetica", 100)
 
+boundary = "You Lose"
 
 def main():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
@@ -86,7 +86,7 @@ def main():
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
             target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)
             trigger = randint(0, 100)
-            if trigger < int(90) and len(target_spawn) < 10:
+            if trigger < int(90) and len(target_spawn) < 20:
                 target_spawn.append(target) 
             if event.type == TARGET_HIT:
                 target_spawn.remove(target)                                 #<-------------------------add new target
@@ -105,30 +105,30 @@ def main():
             dragon_tail.y += VEL
             
         if dragon.x <= 2:
-            draw_text("Hello World", text_font, (0, 0, 0), 220, 150)
+            draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break
 
         elif dragon.x >= WIDTH - 20 - DRAG_HEI:
-            draw_text("Hello World", text_font, (0, 0, 0), 220, 150)
+            draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break 
     
         elif dragon.y <= 2:
-            draw_text("Hello World", text_font, (0, 0, 0), 220, 150)
+            draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break
 
         elif dragon.y >= HEIGHT - 4 - DRAG_HEI:
-            draw_text("Hello World", text_font, (0, 0, 0), 220, 150)
+            draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000) 
             break
 
-        handle_target(target_spawn, dragon)    
+       # handle_target(target_spawn, dragon)    
         handle_fire(dragon_fire, target_spawn)
         keys_pressed = pygame.key.get_pressed()
         rotation = handle_dragon_move(keys_pressed, rotation, repeat)
@@ -239,7 +239,7 @@ def handle_fire(dragon_fire, target_spawn):
                 break  # Stop checking this fireball since it's already removed
 
 
-
+'''
 def handle_target(target_spawn, dragon):
     for target in target_spawn[:]:  
         if dragon.x - int(120) < target.x < dragon.x and target.x - 2 - TARGET_VEL > DRAG_HEI:
@@ -250,11 +250,11 @@ def handle_target(target_spawn, dragon):
                 target.y -= TARGET_VEL #up
         elif dragon.y < target.y < dragon.y + int(120) and target.y + TARGET_HEI + TARGET_VEL < HEIGHT - DRAG_HEI:    
                 target.y += TARGET_VEL #down
-
+'''
 
 def draw_text(text, font, text_col, x, y):
   img = font.render(text, True, text_col)
-  WIN.blit(img, (x, y))
+  WIN.blit(img, (WIDTH // 2 - img.get_width() // 2, HEIGHT // 2 - 150//2))
     
 
 if __name__ == "__main__":
