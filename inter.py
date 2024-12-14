@@ -16,7 +16,7 @@ FPS = 60
 
 VEL = 6
 FIRE_VEL = 20
-TARGET_VEL = 2
+TARGET_VEL = 4
 
 WHITE = (225, 225, 225)
 BLACK = (0, 0, 0)
@@ -39,7 +39,7 @@ TARGET_WID, TARGET_HEI = 60, 60
 
 TARGET_HIT = pygame.USEREVENT + 1
 
-BACK = pygame.image.load(os.path.join('dragon_assets', 'back2.png'))
+BACK = pygame.image.load(os.path.join('dragon_assets', 'back_lvl3.png'))
 BACK = pygame.transform.scale(BACK, (WIDTH, HEIGHT))
 
 TARGET = pygame.image.load(os.path.join('dragon_assets', 'target.png'))
@@ -86,7 +86,7 @@ def new():
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
             target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)
             trigger = randint(0, 100)
-            if trigger < int(90) and len(target_spawn) < 10:
+            if trigger < int(90) and len(target_spawn) < 6:
                 target_spawn.append(target) 
             if event.type == TARGET_HIT:
                 target_spawn.remove(target)                                 #<-------------------------add new target

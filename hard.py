@@ -39,7 +39,7 @@ TARGET_WID, TARGET_HEI = 60, 60
 
 TARGET_HIT = pygame.USEREVENT + 1
 
-BACK = pygame.image.load(os.path.join('dragon_assets', 'back2.png'))
+BACK = pygame.image.load(os.path.join('dragon_assets', 'back_lvl3.png'))
 BACK = pygame.transform.scale(BACK, (WIDTH, HEIGHT))
 
 TARGET = pygame.image.load(os.path.join('dragon_assets', 'target.png'))
