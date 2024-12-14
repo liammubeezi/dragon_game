@@ -6,7 +6,7 @@ pygame.font.init()
 import sys
 import hard
 import inter
-import begin
+import easy
 WIDTH, HEIGHT = 1000, 800
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -69,7 +69,7 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(500)
-                        begin.main()
+                        easy.main()
                         running = False 
                     elif selected_option == 1:  
                         print("INTERMEDIATE...")

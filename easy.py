@@ -86,7 +86,7 @@ def main():
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
             target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)
             trigger = randint(0, 100)
-            if trigger < int(90) and len(target_spawn) < 10:
+            if trigger < int(90) and len(target_spawn) < 20:
                 target_spawn.append(target) 
             if event.type == TARGET_HIT:
                 target_spawn.remove(target)                                 #<-------------------------add new target
@@ -128,7 +128,7 @@ def main():
             pygame.time.delay(2000) 
             break
 
-        handle_target(target_spawn, dragon)    
+       # handle_target(target_spawn, dragon)    
         handle_fire(dragon_fire, target_spawn)
         keys_pressed = pygame.key.get_pressed()
         rotation = handle_dragon_move(keys_pressed, rotation, repeat)
@@ -239,7 +239,7 @@ def handle_fire(dragon_fire, target_spawn):
                 break  # Stop checking this fireball since it's already removed
 
 
-
+'''
 def handle_target(target_spawn, dragon):
     for target in target_spawn[:]:  
         if dragon.x - int(120) < target.x < dragon.x and target.x - 2 - TARGET_VEL > DRAG_HEI:
@@ -250,7 +250,7 @@ def handle_target(target_spawn, dragon):
                 target.y -= TARGET_VEL #up
         elif dragon.y < target.y < dragon.y + int(120) and target.y + TARGET_HEI + TARGET_VEL < HEIGHT - DRAG_HEI:    
                 target.y += TARGET_VEL #down
-
+'''
 
 def draw_text(text, font, text_col, x, y):
   img = font.render(text, True, text_col)
