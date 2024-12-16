@@ -3,7 +3,7 @@ import os
 from random import randint
 pygame.font.init()
 import sys
-
+import level
 WIDTH, HEIGHT = 1500, 800
 
 pygame.font.init()
@@ -82,7 +82,8 @@ def new():
                     if rotation == 0:
                         fire = pygame.Rect(dragon.x + DRAG_WID//2, dragon.y + DRAG_HEI, 10, 30)
                         dragon_fire.append(('down', fire))
-
+                if event.key == pygame.K_ESCAPE:
+                      level.main_menu() 
             TARGET_SPAWN_X = randint(0, WIDTH - TARGET_WID - 1)
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
             target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)

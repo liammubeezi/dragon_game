@@ -109,12 +109,3 @@ def main_menu():
 
 if __name__ == "__main__":
     main_menu()
-    
-    '''
-    screen.fill(GREEN)
-    text = font.render("game loading...", True, WHITE)
-    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
-    pygame.display.flip()
-    pygame.time.wait(500)
-    pygame.quit()
-    '''

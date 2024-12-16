@@ -2,6 +2,7 @@ import pygame
 import os
 from random import randint
 import sys
+import level
 
 WIDTH, HEIGHT = 1500, 800
 
@@ -37,6 +38,7 @@ DRAG_TAIL_VERT = DRAG_VERT - DRAG_TAIL_HEI
 TARGET_WID, TARGET_HEI = 60, 60
 
 TARGET_HIT = pygame.USEREVENT + 1
+DRAGON_HIT = pygame.USEREVENT + 2
 
 BACK = pygame.image.load(os.path.join('dragon_assets', 'back2.png'))
 BACK = pygame.transform.scale(BACK, (WIDTH, HEIGHT))
@@ -81,6 +83,9 @@ def main():
                     if rotation == 0:
                         fire = pygame.Rect(dragon.x + DRAG_WID//2, dragon.y + DRAG_HEI, 10, 30)
                         dragon_fire.append(('down', fire))
+                
+                if event.key == pygame.K_ESCAPE:
+                      level.main_menu()  
 
             TARGET_SPAWN_X = randint(0, WIDTH - TARGET_WID - 1)
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
@@ -94,6 +99,7 @@ def main():
         if repeat[-1] == 'left' in repeat and dragon.x - VEL > 0:
             dragon.x -= VEL 
             dragon_tail.x -= VEL
+
         elif repeat[-1] == 'right' in repeat and dragon.x + 50 + VEL < WIDTH:
             dragon.x += VEL
             dragon_tail.x += VEL
