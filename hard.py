@@ -60,13 +60,9 @@ def new():
     dragon_fire = []
     target_spawn = []
     repeat = ['down']
-<<<<<<< HEAD
     
     
     
-=======
-
->>>>>>> 922719eba4346ae701382692e5c6ff918037a7c6
     clock = pygame.time.Clock()
     run = True
 
