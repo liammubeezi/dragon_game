@@ -95,6 +95,10 @@ def new():
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
             target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)
             trigger = randint(0, 100)
+            
+            if abs(target.x - dragon.x) <= 50 and abs(target.y - dragon.y) <= 50:
+                continue 
+
             if trigger < int(70) and len(target_spawn) < 10:
                 target_spawn.append(target) 
             if event.type == TARGET_HIT:
