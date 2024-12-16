@@ -46,7 +46,7 @@ BACK = pygame.transform.scale(BACK, (WIDTH, HEIGHT))
 TARGET = pygame.image.load(os.path.join('dragon_assets', 'target.png'))
 TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 
-text_font = pygame.font.SysFont("Helvetica", 30)
+text_font = pygame.font.SysFont("Helvetica", 100)
 
 boundary = "You Lose"
 
@@ -99,7 +99,7 @@ def new():
                 pygame.event.post(pygame.event.Event(DRAGON_HIT))
         
         if event.type == DRAGON_HIT:
-            draw_text(boundary, text_font, RED, 220, 150)
+            draw_text(boundary, text_font, BLACK, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             level.main_menu()
@@ -118,25 +118,25 @@ def new():
             dragon_tail.y += VEL
             
         if dragon.x <= 2:
-            draw_text(boundary, text_font, RED, 220, 150)
+            draw_text(boundary, text_font, BLACK, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break
 
         elif dragon.x >= WIDTH - 20 - DRAG_HEI:
-            draw_text(boundary, text_font, RED, 220, 150)
+            draw_text(boundary, text_font, BLACK, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break 
     
         elif dragon.y <= 2:
-            draw_text(boundary, text_font, RED, 220, 150)
+            draw_text(boundary, text_font, BLACK, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break
 
         elif dragon.y >= HEIGHT - 4 - DRAG_HEI:
-            draw_text(boundary, text_font, RED, 220, 150)
+            draw_text(boundary, text_font, BLACK, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000) 
             break
