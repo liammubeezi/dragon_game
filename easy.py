@@ -50,6 +50,7 @@ text_font = pygame.font.SysFont("Helvetica", 100)
 
 boundary = "You Lose"
 
+
 def main():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
     dragon_tail = pygame.Rect(DRAG_TAIL_HORI, DRAG_TAIL_VERT, DRAG_TAIL_WID, DRAG_TAIL_HEI)
@@ -85,8 +86,9 @@ def main():
                         dragon_fire.append(('down', fire))
                 
                 if event.key == pygame.K_ESCAPE:
-                      level.main_menu()  
-
+                     
+                     level.main_menu()   
+                     
             TARGET_SPAWN_X = randint(0, WIDTH - TARGET_WID - 1)
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
             target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)
@@ -96,10 +98,19 @@ def main():
             if event.type == TARGET_HIT:
                 target_spawn.remove(target)                                 #<-------------------------add new target
         
+        for target in target_spawn[:]:
+            if target.colliderect(dragon):
+                pygame.event.post(pygame.event.Event(DRAGON_HIT))
+        
+        if event.type == DRAGON_HIT:
+            draw_text(boundary, text_font, RED, 220, 150)
+            pygame.display.update()
+            pygame.time.delay(2000)
+            level.main_menu()
+
         if repeat[-1] == 'left' in repeat and dragon.x - VEL > 0:
             dragon.x -= VEL 
             dragon_tail.x -= VEL
-
         elif repeat[-1] == 'right' in repeat and dragon.x + 50 + VEL < WIDTH:
             dragon.x += VEL
             dragon_tail.x += VEL
