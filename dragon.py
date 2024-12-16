@@ -73,7 +73,7 @@ def main_menu():
                         text = font.render("use awsd for movement , use f to shoot , Press Esc for main menu", True, WHITE)
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
-                        pygame.time.wait(3000)
+                        pygame.time.wait(1500)
                         easy.main()
                         running = False 
                     elif selected_option == 1:  
