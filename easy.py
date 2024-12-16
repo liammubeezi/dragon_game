@@ -134,6 +134,7 @@ def main():
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
+            level.main_menu()
             break
 
         elif dragon.x >= WIDTH - 20 - DRAG_HEI:
@@ -141,6 +142,7 @@ def main():
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
+            level.main_menu()
             break 
     
         elif dragon.y <= 2:
@@ -148,6 +150,7 @@ def main():
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
+            level.main_menu()
             break
 
         elif dragon.y >= HEIGHT - 4 - DRAG_HEI:
@@ -155,6 +158,7 @@ def main():
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000) 
+            level.main_menu()
             break
 
        # handle_target(target_spawn, dragon)    
