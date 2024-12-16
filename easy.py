@@ -38,6 +38,7 @@ DRAG_TAIL_VERT = DRAG_VERT - DRAG_TAIL_HEI
 TARGET_WID, TARGET_HEI = 60, 60
 
 TARGET_HIT = pygame.USEREVENT + 1
+DRAGON_HIT = pygame.USEREVENT + 2
 
 BACK = pygame.image.load(os.path.join('dragon_assets', 'back2.png'))
 BACK = pygame.transform.scale(BACK, (WIDTH, HEIGHT))
@@ -98,6 +99,7 @@ def main():
         if repeat[-1] == 'left' in repeat and dragon.x - VEL > 0:
             dragon.x -= VEL 
             dragon_tail.x -= VEL
+
         elif repeat[-1] == 'right' in repeat and dragon.x + 50 + VEL < WIDTH:
             dragon.x += VEL
             dragon_tail.x += VEL
