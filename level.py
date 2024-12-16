@@ -70,7 +70,7 @@ def main_menu():
                         pygame.display.flip()
                         pygame.time.wait(1000)
                         screen.fill(GREEN)
-                        text = font.render("use awsd for movement , use f to shoot , Press Esc to quit", True, WHITE)
+                        text = font.render("use awsd for movement , use f to shoot , press esc for main menu", True, WHITE)
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(2000)
