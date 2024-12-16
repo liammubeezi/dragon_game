@@ -15,7 +15,7 @@ pygame.display.set_caption("First, Game!")
 FPS = 60
 
 VEL = 6
-FIRE_VEL = 20
+FIRE_VEL = 40
 TARGET_VEL = 4
 
 WHITE = (225, 225, 225)
