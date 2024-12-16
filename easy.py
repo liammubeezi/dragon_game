@@ -2,6 +2,7 @@ import pygame
 import os
 from random import randint
 import sys
+import level
 
 WIDTH, HEIGHT = 1500, 800
 
@@ -105,8 +106,7 @@ def main():
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
-            pygame.quit()
-            sys.exit()
+            level.main_menu()
 
         if repeat[-1] == 'left' in repeat and dragon.x - VEL > 0:
             dragon.x -= VEL 
