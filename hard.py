@@ -60,67 +60,57 @@ def new():
     dragon_fire = []
     target_spawn = []
     repeat = ['down']
-<<<<<<< HEAD
     
     
     
-=======
-
->>>>>>> 922719eba4346ae701382692e5c6ff918037a7c6
     clock = pygame.time.Clock()
     run = True
-
+    
+    
     while run:
         clock.tick(FPS)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for event in pygame.event.get(): 
+            if event.type == pygame.QUIT: #quit event
                 run = False
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_f:
                     fire_sound.play()
                     if rotation == 270:
-                        fire = pygame.Rect(dragon.x, dragon.y + DRAG_HEI // 2, 30, 10)
+                        fire = pygame.Rect(dragon.x, dragon.y + DRAG_HEI//2, 30, 10)    #fix fire launch origin
                         dragon_fire.append(('left', fire))
                     if rotation == 90:
-                        fire = pygame.Rect(dragon.x + DRAG_WID, dragon.y + DRAG_HEI // 2, 30, 10)
+                        fire = pygame.Rect(dragon.x + DRAG_WID, dragon.y + DRAG_HEI//2, 30, 10)
                         dragon_fire.append(('right', fire))
                     if rotation == 180:
-                        fire = pygame.Rect(dragon.x + DRAG_WID // 2, dragon.y, 10, 30)
+                        fire = pygame.Rect(dragon.x + DRAG_WID//2, dragon.y, 10, 30)
                         dragon_fire.append(('up', fire))
                     if rotation == 0:
-                        fire = pygame.Rect(dragon.x + DRAG_WID // 2, dragon.y + DRAG_HEI, 10, 30)
+                        fire = pygame.Rect(dragon.x + DRAG_WID//2, dragon.y + DRAG_HEI, 10, 30)
                         dragon_fire.append(('down', fire))
                 if event.key == pygame.K_ESCAPE:
-                    level.main_menu()
-
+                      level.main_menu() 
             TARGET_SPAWN_X = randint(0, WIDTH - TARGET_WID - 1)
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
-            target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, TARGET_WID, TARGET_HEI)
-
-            if abs(target.x - dragon.x) <= 50 and abs(target.y - dragon.y) <= 50:
-                continue 
-
+            target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)
             trigger = randint(0, 100)
-            if trigger < 99 and len(target_spawn) < 20:
-                target_spawn.append(target)
-
+            if trigger < int(99) and len(target_spawn) < 20:
+                target_spawn.append(target) 
             if event.type == TARGET_HIT:
-                if target in target_spawn:
-                    target_spawn.remove(target)
-
+                target_spawn.remove(target)                                 #<-------------------------add new target
+        
         for target in target_spawn[:]:
             if target.colliderect(dragon):
                 pygame.event.post(pygame.event.Event(DRAGON_HIT))
-
+        
         if event.type == DRAGON_HIT:
             draw_text(boundary, text_font, BLACK, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             level.main_menu()
-
+        
         if repeat[-1] == 'left' in repeat and dragon.x - VEL > 0:
-            dragon.x -= VEL
+            dragon.x -= VEL 
             dragon_tail.x -= VEL
         elif repeat[-1] == 'right' in repeat and dragon.x + 50 + VEL < WIDTH:
             dragon.x += VEL
@@ -128,25 +118,41 @@ def new():
         elif repeat[-1] == 'up' in repeat and dragon.y - VEL > 0:
             dragon.y -= VEL
             dragon_tail.y -= VEL
-        elif repeat[-1] == 'down' in repeat and dragon.y + DRAG_HEI + VEL < HEIGHT:
+        elif repeat[-1] == 'down' in repeat  and dragon.y + DRAG_HEI + VEL < HEIGHT:
             dragon.y += VEL
             dragon_tail.y += VEL
-
-        if dragon.x <= 2 or dragon.x >= WIDTH - 20 - DRAG_HEI or dragon.y <= 2 or dragon.y >= HEIGHT - 4 - DRAG_HEI:
+            
+        if dragon.x <= 2:
             draw_text(boundary, text_font, BLACK, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break
 
-        handle_target(target_spawn, dragon)
+        elif dragon.x >= WIDTH - 20 - DRAG_HEI:
+            draw_text(boundary, text_font, BLACK, 220, 150)
+            pygame.display.update()
+            pygame.time.delay(2000)
+            break 
+    
+        elif dragon.y <= 2:
+            draw_text(boundary, text_font, BLACK, 220, 150)
+            pygame.display.update()
+            pygame.time.delay(2000)
+            break
+
+        elif dragon.y >= HEIGHT - 4 - DRAG_HEI:
+            draw_text(boundary, text_font, BLACK, 220, 150)
+            pygame.display.update()
+            pygame.time.delay(2000) 
+            break
+
+        handle_target(target_spawn, dragon)    
         handle_fire(dragon_fire, target_spawn)
         keys_pressed = pygame.key.get_pressed()
         rotation = handle_dragon_move(keys_pressed, rotation, repeat)
         update_tail_postion(rotation, dragon_tail, dragon)
-        draw_window(dragon, rotation, dragon_fire, None, target_spawn, dragon_tail)
-
+        draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail)
     new()
-
 
 
 def draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail): #draw window and character function
