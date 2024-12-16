@@ -64,6 +64,7 @@ def main():
     run = True
     
     
+    
     while run:
         clock.tick(FPS)
         for event in pygame.event.get(): 
@@ -153,6 +154,13 @@ def main():
         draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail)
     main()
 
+
+        
+
+
+    
+
+    
 
 def draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail): #draw window and character function
     DRAGON = pygame.image.load(os.path.join('dragon_assets', 'dragon_head.png'))
