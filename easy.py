@@ -49,7 +49,8 @@ TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 text_font = pygame.font.SysFont("Helvetica", 100)
 
 boundary = "You Lose"
-
+fire_sound = pygame.mixer.Sound()
+collide_sound=pygame.mixer.Sound()
 
 def main():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
