@@ -130,24 +130,28 @@ def main():
             dragon_tail.y += VEL
             
         if dragon.x <= 2:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break
 
         elif dragon.x >= WIDTH - 20 - DRAG_HEI:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break 
     
         elif dragon.y <= 2:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break
 
         elif dragon.y >= HEIGHT - 4 - DRAG_HEI:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000) 
