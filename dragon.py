@@ -18,7 +18,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (128, 128, 128)
 HIGHLIGHT = (0, 255, 255)
-
+loading_sound = pygame.mixer.Sound("dragon_assets/celtic-7136.mp3")
 
 font = pygame.font.Font(None, 60)
 menu_title = "THIS IS THE DRAGON GAME"
@@ -32,6 +32,7 @@ background_image = pygame.image.load(os.path.join('dragon_assets', 'back1.png'))
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 def draw_menu():
+    loading_sound.play()
     screen.blit(background_image, (0, 0))
 
     title_surface = font.render(menu_title, True, WHITE)
