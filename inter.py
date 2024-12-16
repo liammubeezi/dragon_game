@@ -109,6 +109,7 @@ def new():
                 pygame.event.post(pygame.event.Event(DRAGON_HIT))
         
         if event.type == DRAGON_HIT:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
