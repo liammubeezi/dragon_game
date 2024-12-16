@@ -7,6 +7,7 @@ import level
 WIDTH, HEIGHT = 1500, 800
 
 pygame.font.init()
+pygame.mixer.init()
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("First, Game!")
@@ -49,6 +50,8 @@ TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 text_font = pygame.font.SysFont("Helvetica", 100)
 
 boundary = "You Lose"
+fire_sound = pygame.mixer.Sound("dragon_assets/Grenade+1.mp3")
+collide_sound=pygame.mixer.Sound("dragon_assets/Gun+Silencer.mp3")
 
 def new():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
@@ -57,7 +60,13 @@ def new():
     dragon_fire = []
     target_spawn = []
     repeat = ['down']
+<<<<<<< HEAD
+    
+    
+    
+=======
 
+>>>>>>> 922719eba4346ae701382692e5c6ff918037a7c6
     clock = pygame.time.Clock()
     run = True
 
@@ -69,6 +78,7 @@ def new():
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_f:
+                    fire_sound.play()
                     if rotation == 270:
                         fire = pygame.Rect(dragon.x, dragon.y + DRAG_HEI // 2, 30, 10)
                         dragon_fire.append(('left', fire))
