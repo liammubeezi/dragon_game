@@ -3,7 +3,7 @@ import os
 from random import randint
 import sys
 
-WIDTH, HEIGHT = 1000, 800
+WIDTH, HEIGHT = 1500, 800
 
 pygame.font.init()
 
@@ -86,7 +86,7 @@ def main():
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
             target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)
             trigger = randint(0, 100)
-            if trigger < int(90) and len(target_spawn) < 20:
+            if trigger < int(90) and len(target_spawn) < 5:
                 target_spawn.append(target) 
             if event.type == TARGET_HIT:
                 target_spawn.remove(target)                                 #<-------------------------add new target

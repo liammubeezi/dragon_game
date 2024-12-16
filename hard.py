@@ -4,7 +4,7 @@ from random import randint
 pygame.font.init()
 import sys
 
-WIDTH, HEIGHT = 1000, 800
+WIDTH, HEIGHT = 1500, 800
 
 pygame.font.init()
 
@@ -39,7 +39,7 @@ TARGET_WID, TARGET_HEI = 60, 60
 
 TARGET_HIT = pygame.USEREVENT + 1
 
-BACK = pygame.image.load(os.path.join('dragon_assets', 'back2.png'))
+BACK = pygame.image.load(os.path.join('dragon_assets', 'back_lvl3.png'))
 BACK = pygame.transform.scale(BACK, (WIDTH, HEIGHT))
 
 TARGET = pygame.image.load(os.path.join('dragon_assets', 'target.png'))
@@ -47,6 +47,7 @@ TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 
 text_font = pygame.font.SysFont("Helvetica", 30)
 
+boundary = "You Lose"
 
 def new():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
@@ -105,25 +106,25 @@ def new():
             dragon_tail.y += VEL
             
         if dragon.x <= 2:
-            draw_text("Hello World", text_font, (0, 0, 0), 220, 150)
+            draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break
 
         elif dragon.x >= WIDTH - 20 - DRAG_HEI:
-            draw_text("Hello World", text_font, (0, 0, 0), 220, 150)
+            draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break 
     
         elif dragon.y <= 2:
-            draw_text("Hello World", text_font, (0, 0, 0), 220, 150)
+            draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
             break
 
         elif dragon.y >= HEIGHT - 4 - DRAG_HEI:
-            draw_text("Hello World", text_font, (0, 0, 0), 220, 150)
+            draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000) 
             break
@@ -254,7 +255,7 @@ def handle_target(target_spawn, dragon):
 
 def draw_text(text, font, text_col, x, y):
   img = font.render(text, True, text_col)
-  WIN.blit(img, (x, y))
+  WIN.blit(img, (WIDTH // 2 - img.get_width() // 2, HEIGHT // 2 - 150//2))
     
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ import sys
 import hard
 import inter
 import easy
-WIDTH, HEIGHT = 1000, 800
+WIDTH, HEIGHT = 1500, 800
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("MAIN MENU")
@@ -111,4 +111,3 @@ if __name__ == "__main__":
     pygame.time.wait(500)
     pygame.quit()
     '''
-    #pickle_in=open('easy')
