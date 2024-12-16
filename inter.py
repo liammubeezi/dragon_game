@@ -46,7 +46,7 @@ BACK = pygame.transform.scale(BACK, (WIDTH, HEIGHT))
 TARGET = pygame.image.load(os.path.join('dragon_assets', 'target.png'))
 TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 
-text_font = pygame.font.SysFont("Helvetica", 30)
+text_font = pygame.font.SysFont("Helvetica", 100)
 
 boundary = "You Lose"
 
