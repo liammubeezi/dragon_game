@@ -86,8 +86,8 @@ def main():
                         dragon_fire.append(('down', fire))
                 
                 if event.key == pygame.K_ESCAPE:
-                     pygame.quit()
-                     sys.exit() 
+                     
+                     level.main_menu()   
                      
             TARGET_SPAWN_X = randint(0, WIDTH - TARGET_WID - 1)
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
