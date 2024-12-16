@@ -38,6 +38,7 @@ DRAG_TAIL_VERT = DRAG_VERT - DRAG_TAIL_HEI
 TARGET_WID, TARGET_HEI = 60, 60
 
 TARGET_HIT = pygame.USEREVENT + 1
+DRAGON_HIT = pygame.USEREVENT + 2
 
 BACK = pygame.image.load(os.path.join('dragon_assets', 'back_lvl2.png'))
 BACK = pygame.transform.scale(BACK, (WIDTH, HEIGHT))
@@ -94,6 +95,16 @@ def new():
                 target_spawn.append(target) 
             if event.type == TARGET_HIT:
                 target_spawn.remove(target)                                 #<-------------------------add new target
+
+        for target in target_spawn[:]:
+            if target.colliderect(dragon):
+                pygame.event.post(pygame.event.Event(DRAGON_HIT))
+        
+        if event.type == DRAGON_HIT:
+            draw_text(boundary, text_font, RED, 220, 150)
+            pygame.display.update()
+            pygame.time.delay(2000)
+            level.main_menu()
         
         if repeat[-1] == 'left' in repeat and dragon.x - VEL > 0:
             dragon.x -= VEL 
