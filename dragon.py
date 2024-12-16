@@ -83,6 +83,11 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(500)
+                        screen.fill(GREEN)
+                        text = font.render("use awsd for movement , use f to shoot , Press Esc for main menu", True, WHITE)
+                        screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+                        pygame.display.flip()
+                        pygame.time.wait(1500)
                         inter.new()
                         running = False 
                     elif selected_option == 2:  
@@ -92,6 +97,11 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(500)
+                        screen.fill(GREEN)
+                        text = font.render("use awsd for movement , use f to shoot , Press Esc for main menu", True, WHITE)
+                        screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+                        pygame.display.flip()
+                        pygame.time.wait(1500)
                         hard.new()
                         running = False 
                     elif selected_option == 3: 
