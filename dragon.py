@@ -32,7 +32,7 @@ background_image = pygame.image.load(os.path.join('dragon_assets', 'back1.png'))
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 def draw_menu():
-    loading_sound.play()
+    
     screen.blit(background_image, (0, 0))
 
     title_surface = font.render(menu_title, True, WHITE)
