@@ -68,7 +68,12 @@ def main_menu():
                         text = font.render("game loading...", True, WHITE)
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
-                        pygame.time.wait(500)
+                        pygame.time.wait(1000)
+                        screen.fill(GREEN)
+                        text = font.render("use awsd for movement , use f to shoot", True, WHITE)
+                        screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+                        pygame.display.flip()
+                        pygame.time.wait(2000)
                         easy.main()
                         running = False 
                     elif selected_option == 1:  
@@ -92,7 +97,7 @@ def main_menu():
                     elif selected_option == 3: 
                         pygame.quit()
                         sys.exit()
-
+                           
 
         draw_menu()
 

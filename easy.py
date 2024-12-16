@@ -143,7 +143,7 @@ def draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail
 
     DRAGON_TAIL = pygame.image.load(os.path.join('dragon_assets', 'tail.png'))
     DRAGON_TAIL = pygame.transform.rotate(pygame.transform.scale(DRAGON_TAIL, (DRAG_TAIL_WID, DRAG_TAIL_HEI)), rotation + int(180))
-
+    DRAGON_TAIL.set_colorkey((225, 225, 225))
     FIRE = pygame.image.load(os.path.join('dragon_assets', 'fire.png'))
     FIRE = pygame.transform.rotate(pygame.transform.scale(FIRE, (30, 50)), rotation)
     
