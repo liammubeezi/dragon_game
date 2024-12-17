@@ -63,7 +63,7 @@ def main_menu():
                     selected_option = (selected_option + 1 ) % len(menu_options)
                 elif event.key == pygame.K_UP:
                     selected_option = (selected_option - 1 ) % len(menu_options)
-                elif event.key == pygame.K_RETURN:
+                elif event.key == pygame.K_RETURN  or event.type==pygame.MOUSEBUTTONDOWN:
                     if selected_option == 0:  
                         print("EASY...")
                         screen.fill(GREEN)
