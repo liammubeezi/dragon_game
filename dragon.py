@@ -18,7 +18,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (128, 128, 128)
 HIGHLIGHT = (0, 255, 255)
-loading_sound = pygame.mixer.Sound("dragon_assets/celtic-7136.mp3")
+loading_sound = pygame.mixer.Sound("dragon_assets/dragon-shout-roar-98277.mp3")
 
 font = pygame.font.Font(None, 60)
 menu_title = "THIS IS THE DRAGON GAME"
@@ -76,6 +76,7 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(1500)
+                        loading_sound.play()
                         easy.main()
                         running = False 
                     elif selected_option == 1:  
@@ -90,6 +91,7 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(1500)
+                        loading_sound.play()
                         inter.new()
                         running = False 
                     elif selected_option == 2:  
@@ -104,6 +106,7 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(1500)
+                        loading_sound.play()
                         hard.new()
                         running = False 
                     elif selected_option == 3: 
