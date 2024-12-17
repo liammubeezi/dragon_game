@@ -22,7 +22,7 @@ loading_sound = pygame.mixer.Sound("dragon_assets/dragon-shout-roar-98277.mp3")
 
 font = pygame.font.Font(None, 60)
 menu_title = "THIS IS THE DRAGON GAME"
-menu_instructions = "Select an option using the arrow keys"
+menu_instructions = "Select an option using the arrow keys , Press Enter to select level"
 
 menu_options = ["BEGINNER","INTERMEDIATE", "PRO", "Quit"]
 selected_option = 0
