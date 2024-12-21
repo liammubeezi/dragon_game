@@ -22,11 +22,11 @@ HIGHLIGHT = (0, 255, 255)
 
 font = pygame.font.Font(None, 60)
 menu_title = "THIS IS THE DRAGON GAME"
-menu_instructions = "Select an option using the arrow keys"
+menu_instructions = "Select an option using the arrow keys, Press Enter to select level"
 
 menu_options = ["BEGINNER","INTERMEDIATE", "PRO", "Quit"]
 selected_option = 0
-loading_sound = pygame.mixer.Sound("dragon_assets/celtic-7136.mp3")
+loading_sound = pygame.mixer.Sound("dragon_assets/dragon-shout-roar-98277.mp3")
 
 background_image = pygame.image.load(os.path.join('dragon_assets', 'back1.png'))  
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
@@ -63,7 +63,7 @@ def main_menu():
                     selected_option = (selected_option + 1 ) % len(menu_options)
                 elif event.key == pygame.K_UP:
                     selected_option = (selected_option - 1 ) % len(menu_options)
-                elif event.key == pygame.K_RETURN:
+                elif event.key == pygame.K_RETURN  or event.type==pygame.MOUSEBUTTONDOWN:
                     if selected_option == 0:  
                         print("EASY...")
                         screen.fill(GREEN)
@@ -76,6 +76,7 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(2000)
+                        loading_sound.play()
                         easy.main()
                         running = False 
                     elif selected_option == 1:  
@@ -90,6 +91,7 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(1500)
+                        loading_sound.play()
                         inter.new()
                         running = False 
                     elif selected_option == 2:  
@@ -104,6 +106,7 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(1500)
+                        loading_sound.play()
                         hard.new()
                         running = False 
                     elif selected_option == 3: 
