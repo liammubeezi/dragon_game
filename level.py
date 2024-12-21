@@ -7,6 +7,7 @@ import sys
 import hard
 import inter
 import easy
+pygame.mixer.init()
 WIDTH, HEIGHT = 1500, 800
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -25,12 +26,13 @@ menu_instructions = "Select an option using the arrow keys"
 
 menu_options = ["BEGINNER","INTERMEDIATE", "PRO", "Quit"]
 selected_option = 0
-
+loading_sound = pygame.mixer.Sound("dragon_assets/celtic-7136.mp3")
 
 background_image = pygame.image.load(os.path.join('dragon_assets', 'back1.png'))  
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 def draw_menu():
+   
     screen.blit(background_image, (0, 0))
 
     title_surface = font.render(menu_title, True, WHITE)
@@ -83,6 +85,11 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(500)
+                        screen.fill(GREEN)
+                        text = font.render("use awsd for movement , use f to shoot , Press Esc for main menu", True, WHITE)
+                        screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+                        pygame.display.flip()
+                        pygame.time.wait(1500)
                         inter.new()
                         running = False 
                     elif selected_option == 2:  
@@ -92,6 +99,11 @@ def main_menu():
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
                         pygame.time.wait(500)
+                        screen.fill(GREEN)
+                        text = font.render("use awsd for movement , use f to shoot , Press Esc for main menu", True, WHITE)
+                        screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+                        pygame.display.flip()
+                        pygame.time.wait(1500)
                         hard.new()
                         running = False 
                     elif selected_option == 3: 

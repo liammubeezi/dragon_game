@@ -7,6 +7,7 @@ import level
 WIDTH, HEIGHT = 1500, 800
 
 pygame.font.init()
+pygame.mixer.init()
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("First, Game!")
@@ -30,8 +31,8 @@ DRAG_HORI = 50
 DRAG_HEI = 40
 DRAG_WID = 40
 
-DRAG_TAIL_WID = 20
-DRAG_TAIL_HEI = 50
+DRAG_TAIL_WID = 100
+DRAG_TAIL_HEI = 150
 DRAG_TAIL_HORI = DRAG_HORI + 11
 DRAG_TAIL_VERT = DRAG_VERT - DRAG_TAIL_HEI
 
@@ -49,7 +50,8 @@ TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 text_font = pygame.font.SysFont("Helvetica", 100)
 
 boundary = "You Lose"
-
+fire_sound = pygame.mixer.Sound("dragon_assets/Grenade+1.mp3")
+collide_sound=pygame.mixer.Sound("dragon_assets/Gun+Silencer.mp3")
 
 def main():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
@@ -73,6 +75,7 @@ def main():
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_f:
+                    fire_sound.play()
                     if rotation == 270:
                         fire = pygame.Rect(dragon.x, dragon.y + DRAG_HEI//2, 30, 10)    #fix fire launch origin
                         dragon_fire.append(('left', fire))
@@ -93,8 +96,12 @@ def main():
             TARGET_SPAWN_X = randint(0, WIDTH - TARGET_WID - 1)
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
             target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)
+            
+            if abs(target.x - dragon.x) <= 50 and abs(target.y - dragon.y) <= 50:
+                continue 
+            
             trigger = randint(0, 100)
-            if trigger < int(90) and len(target_spawn) < 5:
+            if trigger < int(50) and len(target_spawn) < 5:
                 target_spawn.append(target) 
             if event.type == TARGET_HIT:
                 target_spawn.remove(target)                                 #<-------------------------add new target
@@ -104,6 +111,7 @@ def main():
                 pygame.event.post(pygame.event.Event(DRAGON_HIT))
         
         if event.type == DRAGON_HIT:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
@@ -123,27 +131,35 @@ def main():
             dragon_tail.y += VEL
             
         if dragon.x <= 2:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
+            level.main_menu()
             break
 
         elif dragon.x >= WIDTH - 20 - DRAG_HEI:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
+            level.main_menu()
             break 
     
         elif dragon.y <= 2:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
+            level.main_menu()
             break
 
         elif dragon.y >= HEIGHT - 4 - DRAG_HEI:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000) 
+            level.main_menu()
             break
 
        # handle_target(target_spawn, dragon)    
@@ -166,7 +182,7 @@ def draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail
     DRAGON = pygame.image.load(os.path.join('dragon_assets', 'dragon_head.png'))
     DRAGON = pygame.transform.rotate(pygame.transform.scale(DRAGON, (DRAG_WID, DRAG_HEI)), rotation)
 
-    DRAGON_TAIL = pygame.image.load(os.path.join('dragon_assets', 'tail.png'))
+    DRAGON_TAIL = pygame.image.load(os.path.join('dragon_assets', 'body.png'))
     DRAGON_TAIL = pygame.transform.rotate(pygame.transform.scale(DRAGON_TAIL, (DRAG_TAIL_WID, DRAG_TAIL_HEI)), rotation + int(180))
     DRAGON_TAIL.set_colorkey((225, 225, 225))
     FIRE = pygame.image.load(os.path.join('dragon_assets', 'fire.png'))
@@ -226,15 +242,15 @@ def handle_dragon_move(keys_pressed, rotation, repeat):
 def update_tail_postion(rotation, dragon_tail, dragon):
     if rotation == 270:
         dragon_tail.x = dragon.x + DRAG_HEI
-        dragon_tail.y = dragon.y + 10
+        dragon_tail.y = dragon.y - 30
     elif rotation == 90:
         dragon_tail.x = dragon.x - DRAG_TAIL_HEI
-        dragon_tail.y = dragon.y + 10
+        dragon_tail.y = dragon.y - 30
     elif rotation == 180:
-        dragon_tail.x = dragon.x + 10
+        dragon_tail.x = dragon.x - 30
         dragon_tail.y = dragon.y + DRAG_HEI
     elif rotation == 0:
-        dragon_tail.x = dragon.x + 11
+        dragon_tail.x = dragon.x - 30
         dragon_tail.y = dragon.y - DRAG_TAIL_HEI
 
 

@@ -7,6 +7,7 @@ import level
 WIDTH, HEIGHT = 1500, 800
 
 pygame.font.init()
+pygame.mixer.init()
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("First, Game!")
@@ -30,12 +31,12 @@ DRAG_HORI = 50
 DRAG_HEI = 40
 DRAG_WID = 40
 
-DRAG_TAIL_WID = 20
-DRAG_TAIL_HEI = 50
+DRAG_TAIL_WID = 100
+DRAG_TAIL_HEI = 150
 DRAG_TAIL_HORI = DRAG_HORI + 11
 DRAG_TAIL_VERT = DRAG_VERT - DRAG_TAIL_HEI
 
-TARGET_WID, TARGET_HEI = 60, 60
+TARGET_WID, TARGET_HEI = 70, 70
 
 TARGET_HIT = pygame.USEREVENT + 1
 DRAGON_HIT = pygame.USEREVENT + 2
@@ -49,6 +50,8 @@ TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 text_font = pygame.font.SysFont("Helvetica", 100)
 
 boundary = "You Lose"
+fire_sound = pygame.mixer.Sound("dragon_assets/Grenade+1.mp3")
+collide_sound=pygame.mixer.Sound("dragon_assets/Gun+Silencer.mp3")
 
 def new():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
@@ -71,6 +74,7 @@ def new():
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_f:
+                    fire_sound.play()
                     if rotation == 270:
                         fire = pygame.Rect(dragon.x, dragon.y + DRAG_HEI//2, 30, 10)    #fix fire launch origin
                         dragon_fire.append(('left', fire))
@@ -91,7 +95,11 @@ def new():
             TARGET_SPAWN_Y = randint(0, HEIGHT - TARGET_HEI - 1)
             target = pygame.Rect(TARGET_SPAWN_X, TARGET_SPAWN_Y, 60, 60)
             trigger = randint(0, 100)
-            if trigger < int(90) and len(target_spawn) < 6:
+            
+            if abs(target.x - dragon.x) <= 50 and abs(target.y - dragon.y) <= 50:
+                continue 
+
+            if trigger < int(70) and len(target_spawn) < 10:
                 target_spawn.append(target) 
             if event.type == TARGET_HIT:
                 target_spawn.remove(target)                                 #<-------------------------add new target
@@ -101,6 +109,7 @@ def new():
                 pygame.event.post(pygame.event.Event(DRAGON_HIT))
         
         if event.type == DRAGON_HIT:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
@@ -120,27 +129,35 @@ def new():
             dragon_tail.y += VEL
             
         if dragon.x <= 2:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
+            level.main_menu()
             break
 
         elif dragon.x >= WIDTH - 20 - DRAG_HEI:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
+            level.main_menu()
             break 
     
         elif dragon.y <= 2:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000)
+            level.main_menu()
             break
 
         elif dragon.y >= HEIGHT - 4 - DRAG_HEI:
+            collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
             pygame.time.delay(2000) 
+            level.main_menu()
             break
 
         handle_target(target_spawn, dragon)    
@@ -156,7 +173,7 @@ def draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail
     DRAGON = pygame.image.load(os.path.join('dragon_assets', 'dragon_head.png'))
     DRAGON = pygame.transform.rotate(pygame.transform.scale(DRAGON, (DRAG_WID, DRAG_HEI)), rotation)
 
-    DRAGON_TAIL = pygame.image.load(os.path.join('dragon_assets', 'tail.png'))
+    DRAGON_TAIL = pygame.image.load(os.path.join('dragon_assets', 'body.png'))
     DRAGON_TAIL = pygame.transform.rotate(pygame.transform.scale(DRAGON_TAIL, (DRAG_TAIL_WID, DRAG_TAIL_HEI)), rotation + int(180))
 
     FIRE = pygame.image.load(os.path.join('dragon_assets', 'fire.png'))
@@ -216,15 +233,15 @@ def handle_dragon_move(keys_pressed, rotation, repeat):
 def update_tail_postion(rotation, dragon_tail, dragon):
     if rotation == 270:
         dragon_tail.x = dragon.x + DRAG_HEI
-        dragon_tail.y = dragon.y + 10
+        dragon_tail.y = dragon.y - 30
     elif rotation == 90:
         dragon_tail.x = dragon.x - DRAG_TAIL_HEI
-        dragon_tail.y = dragon.y + 10
+        dragon_tail.y = dragon.y - 30
     elif rotation == 180:
-        dragon_tail.x = dragon.x + 10
+        dragon_tail.x = dragon.x - 30
         dragon_tail.y = dragon.y + DRAG_HEI
     elif rotation == 0:
-        dragon_tail.x = dragon.x + 11
+        dragon_tail.x = dragon.x - 30
         dragon_tail.y = dragon.y - DRAG_TAIL_HEI
 
 
@@ -256,16 +273,26 @@ def handle_fire(dragon_fire, target_spawn):
 
 
 def handle_target(target_spawn, dragon):
-    for target in target_spawn[:]:  
-        if dragon.x - int(120) < target.x < dragon.x and target.x - 2 - TARGET_VEL > DRAG_HEI:
-                target.x -= TARGET_VEL #left
-        elif dragon.x < target.x < dragon.x + int(120) and target.x + TARGET_WID + TARGET_VEL < WIDTH - DRAG_HEI:    
-                target.x += TARGET_VEL #right
-        elif dragon.y - int(120) < target.y < dragon.y and target.y - 2 - TARGET_VEL > DRAG_HEI:    
-                target.y -= TARGET_VEL #up
-        elif dragon.y < target.y < dragon.y + int(120) and target.y + TARGET_HEI + TARGET_VEL < HEIGHT - DRAG_HEI:    
-                target.y += TARGET_VEL #down
+    PROXIMITY = 200
 
+    for target in target_spawn[:]:  
+        distance_x = target.x - dragon.x
+        distance_y = target.y - dragon.y
+
+        if abs(distance_y) < PROXIMITY and -PROXIMITY <= distance_x < 0:
+            target.x -= TARGET_VEL
+
+        elif abs(distance_y) < PROXIMITY and 0 < distance_x <= PROXIMITY:
+            target.x += TARGET_VEL
+
+        if abs(distance_x) < PROXIMITY and -PROXIMITY <= distance_y < 0:
+            target.y -= TARGET_VEL
+
+        elif abs(distance_x) < PROXIMITY and 0 < distance_y <= PROXIMITY:
+            target.y += TARGET_VEL
+
+        target.x = max(0, min(WIDTH - TARGET_WID, target.x))
+        target.y = max(0, min(HEIGHT - TARGET_HEI, target.y))
 
 def draw_text(text, font, text_col, x, y):
   img = font.render(text, True, text_col)
