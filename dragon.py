@@ -89,7 +89,7 @@ def main_menu():
                         pygame.time.wait(1000)
                         screen.fill(GREEN)
                         text = font.render("Use WASD for movement, use 'F' to shoot, press 'esc.' for main menu", True, WHITE)
-                        below =font.render("The cows are learning to fear you, you're going to have to up your game!", True, WHITE)
+                        below = font.render("The cows are learning to fear you, you're going to have to up your game!", True, WHITE)
                         sub = font.render("Your Goal, Kill 20 cows.", True, WHITE)
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         screen.blit(below, (WIDTH // 2 - below.get_width() // 2, HEIGHT // 2 + 40))
