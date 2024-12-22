@@ -73,7 +73,7 @@ def new():
                 run = False
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_f:
+                if event.key == pygame.K_SPACE:
                     fire_sound.play()
                     if rotation == 270:
                         fire = pygame.Rect(dragon.x, dragon.y + DRAG_HEI//2, 30, 10)    #fix fire launch origin
