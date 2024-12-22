@@ -3,9 +3,8 @@ import os
 from random import randint
 import sys
 import level
-
 WIDTH, HEIGHT = 1500, 800
-
+pygame.init()
 pygame.font.init()
 pygame.mixer.init()
 
@@ -15,9 +14,9 @@ pygame.display.set_caption("First, Game!")
 
 FPS = 60
 
-VEL = 6
+VEL = 5
 FIRE_VEL = 40
-TARGET_VEL = 4
+TARGET_VEL = 3
 
 WHITE = (225, 225, 225)
 BLACK = (0, 0, 0)
@@ -25,6 +24,7 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0) 
 BLUE = (0, 0, 225)
 ORANGE = (255, 165, 0)
+TR = (0, 0, 0, 0)
 
 DRAG_VERT = 50
 DRAG_HORI = 50
@@ -36,7 +36,7 @@ DRAG_TAIL_HEI = 150
 DRAG_TAIL_HORI = DRAG_HORI + 11
 DRAG_TAIL_VERT = DRAG_VERT - DRAG_TAIL_HEI
 
-TARGET_WID, TARGET_HEI = 70, 70
+TARGET_WID, TARGET_HEI = 60, 60
 
 TARGET_HIT = pygame.USEREVENT + 1
 DRAGON_HIT = pygame.USEREVENT + 2
@@ -48,32 +48,18 @@ TARGET = pygame.image.load(os.path.join('dragon_assets', 'target.png'))
 TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 
 text_font = pygame.font.SysFont("Helvetica", 100)
-font = pygame.font.Font(None, 20)
+font = pygame.font.Font(None, 30)
 boundary = "You Lose"
+win = "One More Level!"
 fire_sound = pygame.mixer.Sound("dragon_assets/Grenade+1.mp3")
 collide_sound=pygame.mixer.Sound("dragon_assets/Gun+Silencer.mp3")
-score = 0
 
-# Function to display the scorebar
-def draw_scorebar(score):
-    text = font.render(f"Score: {score}", True, WHITE)  # Score text
-    WIN.blit(text, (10, 10)) # Display score at the top-left corner
-    pygame.display.update()
-    for event in pygame.event.get():
-        if event.type == TARGET_HIT:
-            score += 1
-            pygame.display.update()
-    
-    if score == 20:
-            text = font.render(f"YOU WIN!!!!", True, WHITE)  # Score text
-            WIN.blit(text, (400, 300))
-            pygame.display.update()
-            pygame.time.delay(2000)
-            level.main_menu()
+
 def new():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
     dragon_tail = pygame.Rect(DRAG_TAIL_HORI, DRAG_TAIL_VERT, DRAG_TAIL_WID, DRAG_TAIL_HEI)
     rotation = 0
+    score = 0
     dragon_fire = []
     target_spawn = []
     repeat = ['down']
@@ -90,7 +76,7 @@ def new():
                 run = False
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_f:
                     fire_sound.play()
                     if rotation == 270:
                         fire = pygame.Rect(dragon.x, dragon.y + DRAG_HEI//2, 30, 10)    #fix fire launch origin
@@ -116,10 +102,10 @@ def new():
             if abs(target.x - dragon.x) <= 50 and abs(target.y - dragon.y) <= 50:
                 continue 
 
-            if trigger < int(70) and len(target_spawn) < 10:
+            if trigger < int(50) and len(target_spawn) < 7:
                 target_spawn.append(target) 
             if event.type == TARGET_HIT:
-                target_spawn.remove(target)                                 #<-------------------------add new target
+                target_spawn.remove(target)                                
 
         for target in target_spawn[:]:
             if target.colliderect(dragon):
@@ -145,7 +131,7 @@ def new():
             dragon.y += VEL
             dragon_tail.y += VEL
             
-        if dragon.x <= 2:
+        if dragon.x <= 5:
             collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
@@ -153,7 +139,7 @@ def new():
             level.main_menu()
             break
 
-        elif dragon.x >= WIDTH - 20 - DRAG_HEI:
+        elif dragon.x >= WIDTH - 21 - DRAG_HEI:
             collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
@@ -161,7 +147,7 @@ def new():
             level.main_menu()
             break 
     
-        elif dragon.y <= 2:
+        elif dragon.y <= 5:
             collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
@@ -169,7 +155,7 @@ def new():
             level.main_menu()
             break
 
-        elif dragon.y >= HEIGHT - 4 - DRAG_HEI:
+        elif dragon.y >= HEIGHT - 5 - DRAG_HEI:
             collide_sound.play()
             draw_text(boundary, text_font, RED, 220, 150)
             pygame.display.update()
@@ -178,26 +164,29 @@ def new():
             break
 
         handle_target(target_spawn, dragon)    
-        handle_fire(dragon_fire, target_spawn)
         keys_pressed = pygame.key.get_pressed()
         rotation = handle_dragon_move(keys_pressed, rotation, repeat)
+        score = handle_fire(dragon_fire, target_spawn, score)
         update_tail_postion(rotation, dragon_tail, dragon)
-        draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail)
-        draw_scorebar(score=0)
+        draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail, score)
+        draw_scorebar(score)
     new()
 
 
-def draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail): #draw window and character function
+def draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail, score):
     DRAGON = pygame.image.load(os.path.join('dragon_assets', 'dragon_head.png'))
     DRAGON = pygame.transform.rotate(pygame.transform.scale(DRAGON, (DRAG_WID, DRAG_HEI)), rotation)
 
     DRAGON_TAIL = pygame.image.load(os.path.join('dragon_assets', 'body.png'))
     DRAGON_TAIL = pygame.transform.rotate(pygame.transform.scale(DRAGON_TAIL, (DRAG_TAIL_WID, DRAG_TAIL_HEI)), rotation + int(180))
-
+    DRAGON_TAIL.set_colorkey((225, 225, 225))
+    
     FIRE = pygame.image.load(os.path.join('dragon_assets', 'fire.png'))
     FIRE = pygame.transform.rotate(pygame.transform.scale(FIRE, (30, 50)), rotation)
     
     WIN.blit(BACK, (0, 0))
+    text = font.render(f"Score: {score}", True, WHITE)
+    WIN.blit(text, (20, 20))
     for _, fire in dragon_fire:
         WIN.blit(FIRE, (fire.x, fire.y))
     for target in target_spawn:
@@ -206,6 +195,13 @@ def draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail
     WIN.blit(DRAGON_TAIL, (dragon_tail.x, dragon_tail.y))
 
     pygame.display.update()
+
+def draw_scorebar(score):
+    if score == 20:
+        draw_text(win, text_font, BLUE, 220, 150)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        level.main_menu()
 
 def handle_dragon_move(keys_pressed, rotation, repeat):                                  
     if keys_pressed[pygame.K_a]: #left
@@ -264,9 +260,25 @@ def update_tail_postion(rotation, dragon_tail, dragon):
 
 
 
-def handle_fire(dragon_fire, target_spawn):
-    for direction, fire in dragon_fire[:]:  # Iterate over a copy of the list to modify it safely
-        # Move fireball based on its direction
+def handle_target(target_spawn, dragon):
+    for target in target_spawn[:]:  
+        distance = ((target.x - dragon.x) ** 2 + (target.y - dragon.y) ** 2) ** 0.5
+        
+        if distance <= 200: 
+            if target.x < dragon.x and target.x - TARGET_VEL > 0: 
+                target.x -= TARGET_VEL
+            elif target.x > dragon.x and target.x + TARGET_WID + TARGET_VEL < WIDTH:  
+                target.x += TARGET_VEL
+            if target.y < dragon.y and target.y - TARGET_VEL > 0:  
+                target.y -= TARGET_VEL
+            elif target.y > dragon.y and target.y + TARGET_HEI + TARGET_VEL < HEIGHT: 
+                target.y += TARGET_VEL
+
+
+
+
+def handle_fire(dragon_fire, target_spawn, score):
+    for direction, fire in dragon_fire[:]: 
         if direction == 'left':
             fire.x -= FIRE_VEL
         elif direction == 'right':
@@ -276,45 +288,23 @@ def handle_fire(dragon_fire, target_spawn):
         elif direction == 'down':
             fire.y += FIRE_VEL
 
-        # Remove fireball if it goes off-screen
         if fire.x < 0 or fire.x > WIDTH or fire.y < 0 or fire.y > HEIGHT:
             dragon_fire.remove((direction, fire))
             continue
 
-        # Check for collisions with targets
-        for target in target_spawn[:]:  # Iterate over a copy to modify the list safely
+        for target in target_spawn[:]:
             if fire.colliderect(target):
-                target_spawn.remove(target)  # Remove the hit target
-                dragon_fire.remove((direction, fire))  # Remove the fireball
-                break  # Stop checking this fireball since it's already removed
-
-
-
-def handle_target(target_spawn, dragon):
-    PROXIMITY = 200
-
-    for target in target_spawn[:]:  
-        distance_x = target.x - dragon.x
-        distance_y = target.y - dragon.y
-
-        if abs(distance_y) < PROXIMITY and -PROXIMITY <= distance_x < 0:
-            target.x -= TARGET_VEL
-
-        elif abs(distance_y) < PROXIMITY and 0 < distance_x <= PROXIMITY:
-            target.x += TARGET_VEL
-
-        if abs(distance_x) < PROXIMITY and -PROXIMITY <= distance_y < 0:
-            target.y -= TARGET_VEL
-
-        elif abs(distance_x) < PROXIMITY and 0 < distance_y <= PROXIMITY:
-            target.y += TARGET_VEL
-
-        target.x = max(0, min(WIDTH - TARGET_WID, target.x))
-        target.y = max(0, min(HEIGHT - TARGET_HEI, target.y))
+                target_spawn.remove(target) 
+                dragon_fire.remove((direction, fire)) 
+                score += 1  
+                break  
+    return score
 
 def draw_text(text, font, text_col, x, y):
   img = font.render(text, True, text_col)
+  winner = font.render(text, True, text_col)
   WIN.blit(img, (WIDTH // 2 - img.get_width() // 2, HEIGHT // 2 - 150//2))
+  WIN.blit(winner, (WIDTH // 2 - img.get_width() // 2, HEIGHT // 2 - 150//2))
     
 
 if __name__ == "__main__":

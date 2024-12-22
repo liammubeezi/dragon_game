@@ -1,12 +1,11 @@
 import pygame
-#from subprocess import call
 import os
 from random import randint
-pygame.font.init()
 import sys
 import hard
 import inter
 import easy
+pygame.font.init()
 pygame.mixer.init()
 WIDTH, HEIGHT = 1500, 800
 
@@ -22,7 +21,7 @@ loading_sound = pygame.mixer.Sound("dragon_assets/dragon-shout-roar-98277.mp3")
 
 font = pygame.font.Font(None, 60)
 menu_title = "THIS IS THE DRAGON GAME"
-menu_instructions = "Select an option using the arrow keys , Press Enter to select level"
+menu_instructions = "Select using the arrow keys and enter. Start with Beginner, end with Pro."
 
 menu_options = ["BEGINNER","INTERMEDIATE", "PRO", "Quit"]
 selected_option = 0
@@ -72,10 +71,12 @@ def main_menu():
                         pygame.display.flip()
                         pygame.time.wait(1000)
                         screen.fill(GREEN)
-                        text = font.render("use awsd for movement , use f to shoot , Press Esc for main menu", True, WHITE)
+                        text = font.render("Use WASD for movement, use 'F' to shoot, press 'esc.' for main menu", True, WHITE)
+                        sub = font.render("Your goal: kill 25 cows.", True, WHITE)
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+                        screen.blit(sub, (WIDTH // 2 - sub.get_width() // 2, HEIGHT // 2 + 40))
                         pygame.display.flip()
-                        pygame.time.wait(1500)
+                        pygame.time.wait(5000)
                         loading_sound.play()
                         easy.main()
                         running = False 
@@ -85,12 +86,16 @@ def main_menu():
                         text = font.render("game loading...", True, WHITE)
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
-                        pygame.time.wait(500)
+                        pygame.time.wait(1000)
                         screen.fill(GREEN)
-                        text = font.render("use awsd for movement , use f to shoot , Press Esc for main menu", True, WHITE)
+                        text = font.render("Use WASD for movement, use 'F' to shoot, press 'esc.' for main menu", True, WHITE)
+                        below =font.render("The cows are learning to fear you, you're going to have to up your game!", True, WHITE)
+                        sub = font.render("Your Goal, Kill 20 cows.", True, WHITE)
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+                        screen.blit(below, (WIDTH // 2 - below.get_width() // 2, HEIGHT // 2 + 40))
+                        screen.blit(sub, (WIDTH // 2 - sub.get_width() // 2, HEIGHT // 2 + 80))
                         pygame.display.flip()
-                        pygame.time.wait(1500)
+                        pygame.time.wait(5000)
                         loading_sound.play()
                         inter.new()
                         running = False 
@@ -100,12 +105,16 @@ def main_menu():
                         text = font.render("game loading...", True, WHITE)
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
                         pygame.display.flip()
-                        pygame.time.wait(500)
+                        pygame.time.wait(1000)
                         screen.fill(GREEN)
-                        text = font.render("use awsd for movement , use f to shoot , Press Esc for main menu", True, WHITE)
+                        text = font.render("Use WASD for movement, use 'F' to shoot, press 'esc.' for main menu", True, WHITE)
+                        below = font.render("You are now so scary, the cows run from miles away!", True, WHITE)
+                        sub = font.render("Your Goal, Kill 15 cows.", True, WHITE)
                         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+                        screen.blit(below, (WIDTH // 2 - below.get_width() // 2, HEIGHT // 2 + 40))
+                        screen.blit(sub, (WIDTH // 2 - sub.get_width() // 2, HEIGHT // 2 + 80))
                         pygame.display.flip()
-                        pygame.time.wait(1500)
+                        pygame.time.wait(5000)
                         loading_sound.play()
                         hard.new()
                         running = False 
@@ -124,12 +133,4 @@ def main_menu():
 
 if __name__ == "__main__":
     main_menu()
-    
-    '''
-    screen.fill(GREEN)
-    text = font.render("game loading...", True, WHITE)
-    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
-    pygame.display.flip()
-    pygame.time.wait(500)
-    pygame.quit()
-    '''
+
