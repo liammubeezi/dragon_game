@@ -66,14 +66,12 @@ def draw_scorebar(score):
             score += 1
             pygame.display.update()
     
-    if score == 10:
+    if score == 20:
             text = font.render(f"YOU WIN!!!!", True, WHITE)  # Score text
             WIN.blit(text, (400, 300))
             pygame.display.update()
-            pygame.time.wait(3000)
-            pygame.quit()
-            sys.exit()
-
+            pygame.time.delay(2000)
+            level.main_menu()
 def main():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
     dragon_tail = pygame.Rect(DRAG_TAIL_HORI, DRAG_TAIL_VERT, DRAG_TAIL_WID, DRAG_TAIL_HEI)
@@ -95,7 +93,7 @@ def main():
                 run = False
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_f:
                     fire_sound.play()
                     if rotation == 270:
                         fire = pygame.Rect(dragon.x, dragon.y + DRAG_HEI//2, 30, 10)    #fix fire launch origin

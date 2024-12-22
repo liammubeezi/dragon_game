@@ -48,11 +48,28 @@ TARGET = pygame.image.load(os.path.join('dragon_assets', 'target.png'))
 TARGET = pygame.transform.scale(TARGET, (TARGET_WID, TARGET_HEI))
 
 text_font = pygame.font.SysFont("Helvetica", 100)
-
+font = pygame.font.Font(None, 20)
 boundary = "You Lose"
 fire_sound = pygame.mixer.Sound("dragon_assets/Grenade+1.mp3")
 collide_sound=pygame.mixer.Sound("dragon_assets/Gun+Silencer.mp3")
+score = 0
 
+# Function to display the scorebar
+def draw_scorebar(score):
+    text = font.render(f"Score: {score}", True, WHITE)  # Score text
+    WIN.blit(text, (10, 10)) # Display score at the top-left corner
+    pygame.display.update()
+    for event in pygame.event.get():
+        if event.type == TARGET_HIT:
+            score += 1
+            pygame.display.update()
+    
+    if score == 20:
+            text = font.render(f"YOU WIN!!!!", True, WHITE)  # Score text
+            WIN.blit(text, (400, 300))
+            pygame.display.update()
+            pygame.time.delay(2000)
+            level.main_menu()
 def new():
     dragon = pygame.Rect(DRAG_HORI, DRAG_VERT, DRAG_WID, DRAG_HEI)
     dragon_tail = pygame.Rect(DRAG_TAIL_HORI, DRAG_TAIL_VERT, DRAG_TAIL_WID, DRAG_TAIL_HEI)
@@ -166,6 +183,7 @@ def new():
         rotation = handle_dragon_move(keys_pressed, rotation, repeat)
         update_tail_postion(rotation, dragon_tail, dragon)
         draw_window(dragon, rotation, dragon_fire, target, target_spawn, dragon_tail)
+        draw_scorebar(score=0)
     new()
 
 
